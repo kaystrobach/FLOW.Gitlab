@@ -1,7 +1,7 @@
 {
 	"name":"kaystrobach/gitlab",
 	"type":"typo3-flow-package",
-	"description":null,
+	"description":"contains viewHelpers and tools to interact with a gitlab instance from a FLOW application",
 	"version":null,
 	"require":{
 		"typo3/flow":"*"
