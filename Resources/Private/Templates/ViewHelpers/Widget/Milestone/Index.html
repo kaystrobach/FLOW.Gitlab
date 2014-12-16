@@ -1,0 +1,28 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<td>
+				Milestone
+			</td>
+			<td>
+				Due
+			</td>
+			<td>
+				Description
+			</td>
+		</tr>
+	</thead>
+	<f:for each="{milestones}" as="milestone">
+		<tr>
+			<td>
+				<f:link.action action="showIssuesOfMileStone" arguments="{milestone:milestone.title}">{milestone.title}</f:link.action><br>
+			</td>
+			<td>
+				{milestone.due_date}
+			</td>
+			<td>
+				<pre>{milestone.description}</pre>
+			</td>
+		</tr>
+	</f:for>
+</table>

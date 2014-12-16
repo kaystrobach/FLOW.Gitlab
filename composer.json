@@ -4,8 +4,7 @@
 	"description":"contains viewHelpers and tools to interact with a gitlab instance from a FLOW application",
 	"version":null,
 	"require":{
-		"typo3/flow":"*",
-		"m4tthumphrey/php-gitlab-api":"6.9.1"
+		"typo3/flow":"*"
 	},
 	"autoload":{
 		"psr-0":{

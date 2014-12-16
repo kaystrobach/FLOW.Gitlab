@@ -1,0 +1,46 @@
+<h1>
+	<f:link.action action="index"><span class="glyphicon glyphicon-arrow-left"></span></f:link.action>
+	{milestone}
+</h1>
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+				Issue
+			</td>
+			<td>
+				Description
+			</td>
+		</tr>
+	</thead>
+	<f:for each="{issues}" as="issue">
+		<f:if condition="{0:issue.state} == {0:'opened'}">
+			<f:then>
+				<tr class='success'>
+			</f:then>
+			<f:else>
+				<tr class='danger'>
+			</f:else>
+		</f:if>
+			<td>
+				#{issue.iid}
+			</td>
+			<td>
+				{issue.title}
+				<small>
+					{issue.state}
+				</small>
+				<small>
+					{issue.updated_at}
+				</small>
+				<small>
+					{issue.created_at}
+				</small>
+			</td>
+			<td>
+				<pre>{issue.description}</pre>
+			</td>
+		</tr>
+	</f:for>
+</table>

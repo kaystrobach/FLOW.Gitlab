@@ -2,5 +2,5 @@ KayStrobach:
   Gitlab:
     Hosts:
       default:
-        #uri:   "https://git.kay-strobach.de"
-        #token: ""
+        uri:   "https://gitlab.com"
+        token: ""

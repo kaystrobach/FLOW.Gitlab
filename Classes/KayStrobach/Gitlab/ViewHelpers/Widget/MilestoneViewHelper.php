@@ -17,18 +17,18 @@ class MilestoneViewHelper extends \TYPO3\Fluid\Core\Widget\AbstractWidgetViewHel
 
 	/**
 	 * @Flow\Inject
-	 * @var \KayStrobach\Gitlab\ViewHelpers\Widget\Controller\GitlabController
+	 * @var \KayStrobach\Gitlab\ViewHelpers\Widget\Controller\MilestoneController
 	 */
 	protected $controller;
 
 	/**
 	 * Render this view helper
 	 *
-	 * @param string $menu
-	 * @param bool $debug
+	 * @param string $project
+	 * @param string $host
 	 * @return string
 	 */
-	public function render($menu = 'Default', $debug=false) {
+	public function render($project, $host = 'default') {
 		$response = $this->initiateSubRequest();
 		return $response->getContent();
 	}
