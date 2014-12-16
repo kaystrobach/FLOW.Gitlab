@@ -18,14 +18,19 @@
 		<f:if condition="{0:issue.state} == {0:'opened'}">
 			<f:then>
 				<tr class='success'>
+					<td>
+						#{issue.iid}<br>
+						<span class="label label-success">OPEN</span>
+					</td>
 			</f:then>
 			<f:else>
 				<tr class='danger'>
+					<td>
+						#{issue.iid}<br>
+						<span class="label label-danger">CLOSED</span>
+					</td>
 			</f:else>
 		</f:if>
-			<td>
-				#{issue.iid}
-			</td>
 			<td>
 				{issue.title}
 				<small>
