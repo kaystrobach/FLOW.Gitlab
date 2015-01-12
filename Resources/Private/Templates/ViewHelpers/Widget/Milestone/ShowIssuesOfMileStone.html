@@ -19,32 +19,36 @@
 			<f:then>
 				<tr class='success'>
 					<td>
-						#{issue.iid}<br>
-						<span class="label label-success">OPEN</span>
+						<span class="label label-success">OPEN</span><br>
+						#{issue.iid}
 					</td>
 			</f:then>
 			<f:else>
 				<tr class='danger'>
 					<td>
-						#{issue.iid}<br>
-						<span class="label label-danger">CLOSED</span>
+						<span class="label label-danger">CLOSED</span><br>
+						#{issue.iid}
 					</td>
 			</f:else>
 		</f:if>
 			<td>
-				{issue.title}
-				<small>
-					{issue.state}
-				</small>
+
+			</td>
+			<td>
+				<f:if condition="{issue.labels}">
+					<f:for each="{issue.labels}" as="label">
+						<span class="label label-primary">{label}</span>
+					</f:for>
+					<br>
+				</f:if>
+				{issue.title}<br>
 				<small>
 					{issue.updated_at}
 				</small>
 				<small>
 					{issue.created_at}
 				</small>
-			</td>
-			<td>
-				<pre>{issue.description}</pre>
+				<pre class="pre-scrollable">{issue.description}</pre>
 			</td>
 		</tr>
 	</f:for>
