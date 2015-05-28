@@ -4,6 +4,19 @@
 	{project.name}
 </f:section>
 
+<f:section name="NavigationBar">
+	<ul class="nav navbar-nav">
+		<li>
+			<f:link.action action="projects" arguments="{server:project.server}"
+			               title="Back to server {server.name}"
+					>
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Back
+			</f:link.action>
+		</li>
+	</ul>
+</f:section>
+
 <f:section name="Content">
 	<pre>{project.description}</pre>
 
@@ -18,9 +31,9 @@
 		<col width="40%">
 		<thead>
 			<tr>
-				<td>Title</td>
-				<td>Due</td>
-				<td>Progress</td>
+				<th>Title</th>
+				<th>Due</th>
+				<th>Progress</th>
 			</tr>
 		</thead>
 		<tbody>

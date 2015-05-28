@@ -58,9 +58,9 @@ class GitlabCommandController extends \TYPO3\Flow\Cli\CommandController {
 			$this->persistenceManager->persistAll();
 			$this->output->outputLine('  Imported Groups');
 
-			$this->importUtility->importProjects($server);
+			$projectCount = $this->importUtility->importProjects($server);
 			$this->persistenceManager->persistAll();
-			$this->output->outputLine('  Imported Projects');
+			$this->output->outputLine('  Imported ' . $projectCount .' Projects');
 
 			$projects = $this->projectRepository->findByServer($server);
 			foreach($projects as $project) {
@@ -112,6 +112,14 @@ class GitlabCommandController extends \TYPO3\Flow\Cli\CommandController {
 				'Enabled'
 			)
 		);
+	}
+
+	/**
+	 * removes all imported data, please use with care
+	 */
+	public function cleanDatabaseCommand() {
+		$this->serverRepository->removeAll();
+		$this->persistenceManager->persistAll();
 	}
 
 }

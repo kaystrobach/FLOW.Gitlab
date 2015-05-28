@@ -1,9 +1,15 @@
 <f:layout name="Bootstrap" />
 
+<f:section name="Title">
+	Servers
+</f:section>
+
+<f:section name="NavigationBar"></f:section>
+
 <f:section name="Content">
-	<ul>
+	<ul class="list-group">
 		<f:for each="{servers}" as="server">
-			<li>
+			<li class="list-group-item">
 				<f:link.action action="projects" arguments="{server:server}">
 					{server.serverIdentifier}
 				</f:link.action>

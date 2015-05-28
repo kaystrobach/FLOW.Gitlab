@@ -34,14 +34,14 @@ class Project {
 	/**
 	 * @var \Doctrine\Common\Collections\Collection<\KayStrobach\Gitlab\Domain\Model\Project\Issue>
 	 * @ORM\OrderBy({"title" = "DESC"})
-	 * @ORM\OneToMany(mappedBy="project")
+	 * @ORM\OneToMany(mappedBy="project", cascade={"all"})
 	 */
 	protected $issues;
 
 	/**
 	 * @var \Doctrine\Common\Collections\Collection<\KayStrobach\Gitlab\Domain\Model\Project\Milestone>
 	 * @ORM\OrderBy({"due" = "DESC"})
-	 * @ORM\OneToMany(mappedBy="project")
+	 * @ORM\OneToMany(mappedBy="project", cascade={"all"})
 	 */
 	protected $milestones;
 
@@ -54,6 +54,11 @@ class Project {
 	 * @var string
 	 */
 	protected $description;
+
+	/**
+	 * @var string
+	 */
+	protected $namespace;
 
 	/**
 	 * @var string
@@ -156,6 +161,20 @@ class Project {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNamespace() {
+		return $this->namespace;
+	}
+
+	/**
+	 * @param string $namespace
+	 */
+	public function setNamespace($namespace) {
+		$this->namespace = $namespace;
 	}
 
 	/**

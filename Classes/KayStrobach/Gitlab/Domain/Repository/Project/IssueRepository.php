@@ -44,7 +44,7 @@ class IssueRepository extends Repository {
 			$query->logicalAnd(
 				array(
 					$query->equals('milestone', $milestone),
-					$query->equals('state.title', $state),
+					$query->in('state.title', $state),
 				)
 			)
 		);

@@ -40,6 +40,12 @@ class ImportUtility {
 
 	/**
 	 * @Flow\Inject
+	 * @var \KayStrobach\Gitlab\Domain\Repository\GroupRepository
+	 */
+	protected $groupRepository;
+
+	/**
+	 * @Flow\Inject
 	 * @var \KayStrobach\Gitlab\Utility\FetchDataUtility
 	 */
 	protected $fetchUtility;
@@ -61,7 +67,22 @@ class ImportUtility {
 	}
 
 	public function importGroups(Server $server) {
-
+		$groups = $this->fetchUtility->fetchGroups($server);
+		foreach($groups as $groupData) {
+			$group = $this->groupRepository->findOneByServerAndRemoteIdentifier($server, $groupData['id']);
+			if($group !== NULL) {
+				$group->setName($groupData['name']);
+				$group->setDescription($groupData['description']);
+				$this->groupRepository->update($group);
+			} else {
+				$group = new Group();
+				$group->setIdentifierOnRemoteSystem($groupData['id']);
+				$group->setName($groupData['name']);
+				$group->setDescription($groupData['description']);
+				$group->setServer($server);
+				$this->groupRepository->add($group);
+			}
+		}
 	}
 
 	public function importProjects(Server $server) {
@@ -72,6 +93,7 @@ class ImportUtility {
 				$project->setName($projectData['name']);
 				$project->setDescription($projectData['description']);
 				$project->setWebInterfaceUrl($projectData['web_url']);
+				$project->setNamespace($projectData['namespace']['name']);
 				$this->projectRepository->update($project);
 			} else {
 				$project = new Project();
@@ -79,10 +101,12 @@ class ImportUtility {
 				$project->setName($projectData['name']);
 				$project->setDescription($projectData['description']);
 				$project->setWebInterfaceUrl($projectData['web_url']);
+				$project->setNamespace($projectData['namespace']['name']);
 				$project->setServer($server);
 				$this->projectRepository->add($project);
 			}
 		}
+		return count($projectsData);
 	}
 
 	public function importMilestones(Project $project) {
@@ -103,6 +127,7 @@ class ImportUtility {
 				$milestone->setTitle($milestoneData['title']);
 				$milestone->setDescription($milestoneData['description']);
 				$milestone->setCreated(new \DateTime($milestoneData['created_at']));
+				$milestone->setUpdated(new \DateTime($milestoneData['updated_at']));
 				$milestone->setDue(new \DateTime($milestoneData['due_date']));
 				$milestone->setState(new Project\Milestone\State($milestoneData['state']));
 				$milestone->setProject($project);

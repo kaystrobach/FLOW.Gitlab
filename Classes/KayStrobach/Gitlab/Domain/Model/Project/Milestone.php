@@ -27,7 +27,7 @@ class Milestone {
 	/**
 	 * @var \Doctrine\Common\Collections\Collection<\KayStrobach\Gitlab\Domain\Model\Project\Issue>
 	 * @ORM\OrderBy({"title" = "DESC"})
-	 * @ORM\OneToMany(mappedBy="milestone")
+	 * @ORM\OneToMany(mappedBy="milestone", cascade={"all"})
 	 */
 	protected $issues;
 
@@ -195,10 +195,17 @@ class Milestone {
 	}
 
 	/**
-	 *
+	 * @return \TYPO3\Flow\Persistence\QueryResultInterface
+	 */
+	public function getOpenIssues() {
+		return $this->issueRepository->findByMilestoneAndState($this, array('opened', 'reopened'));
+	}
+
+	/**
+	 * @return \TYPO3\Flow\Persistence\QueryResultInterface
 	 */
 	public function getClosedIssues() {
-		return $this->issueRepository->findByMilestoneAndState($this, 'closed');
+		return $this->issueRepository->findByMilestoneAndState($this, array('closed'));
 	}
 
 	public function getProgress() {

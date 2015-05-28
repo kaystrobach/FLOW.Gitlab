@@ -1,9 +1,42 @@
-<ul>
-	<f:for each="{server.projects}" as="project">
+<f:layout name="Bootstrap" />
+
+<f:section name="Title">
+	Server: {server.serverIdentifier}
+</f:section>
+
+<f:section name="NavigationBar">
+	<ul class="nav navbar-nav">
 		<li>
-			<f:link.action action="projects" arguments="{project:project}">
-				{project.name}
+			<f:link.action action="index"
+			               title="Back to server list"
+					>
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Back
 			</f:link.action>
 		</li>
-	</f:for>
-</ul>
+	</ul>
+</f:section>
+
+<f:section name="Content">
+	<ul class="list-group">
+		<f:for each="{server.projects}" as="project">
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-sm-6">
+						<f:link.action action="project" arguments="{project:project}">
+							{project.namespace} {project.projectGroup.title} / {project.name}
+						</f:link.action>
+					</div>
+					<div class="col-sm-6">
+						<f:if condition="{project.description}">
+							<pre>{project.description}</pre>
+						</f:if>
+					</div>
+				</div>
+			</li>
+		</f:for>
+	</ul>
+</f:section>
+
+
+

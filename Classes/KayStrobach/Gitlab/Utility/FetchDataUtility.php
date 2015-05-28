@@ -37,10 +37,20 @@ class FetchDataUtility {
 	}
 
 	public function fetchProjects(Server $server) {
-		return $this->getByUrl(
-			$server->getUri() . '/api/v3/projects/',
-			$server->getToken()
-		);
+		$page = 1;
+		$projects = array();
+		do {
+			$newProjects = $this->getByUrl(
+				$server->getUri() . '/api/v3/projects?page=' . $page,
+				$server->getToken()
+			);
+			$page++;
+			if(count($newProjects) > 0) {
+				$projects = array_merge($projects, $newProjects);
+			}
+		} while (count($newProjects) > 0);
+
+		return $projects;
 	}
 
 	public function fetchIssues(Project $project) {

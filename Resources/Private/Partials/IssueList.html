@@ -1,0 +1,83 @@
+<div class="list-group">
+	<f:for each="{issues}" as="issue">
+		<div class="list-group-item {f:if(condition:'{issue.state.title} == \'closed\'', then:'disabled')}">
+			<div class="row">
+				<div class="col-xs-8">
+					<a data-toggle="modal" data-target="#issue-{issue -> f:format.identifier()}">
+						{issue.title}
+					</a>
+				</div>
+				<div class="col-xs-4">
+					<span class="pull-right">
+						<div class="btn-group btn-group-xs">
+							<f:if condition="{issue.state.title} == 'closed'">
+								<f:then>
+									<span class="btn btn-danger disabled">
+										<span class="glyphicon glyphicon-eye-close"></span>
+									</span>
+								</f:then>
+								<f:else>
+									<span class="btn btn-success disabled">
+										<span class="glyphicon glyphicon-eye-open"></span>
+									</span>
+								</f:else>
+							</f:if>
+							<a data-toggle="modal" data-target="#issue-{issue -> f:format.identifier()}" class="btn btn-default">
+								<span class="glyphicon glyphicon-modal-window"></span>
+								Info
+							</a>
+							<a href="{milestone.project.WebInterfaceUrl}/issues/{issue.issueId}" class="btn btn-default" target="_blank">
+								<span class="glyphicon glyphicon-link"></span>
+								Gitlab
+							</a>
+						</div>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-7">
+					<div class="text-muted">
+						#{issue.issueId}
+						<span class="glyphicon glyphicon-time"></span> {issue.milestone.title}
+					</div>
+				</div>
+				<div class="col-xs-5">
+					<span class="pull-right text-muted">
+						updated {issue.updated -> f:format.date()}
+					</span>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal fade" id="issue-{issue -> f:format.identifier()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">#{issue.issueId} - {issue.title}</h4>
+					</div>
+					<div class="modal-body">
+						<f:if condition="{issue.description}">
+							<f:then>
+								<pre>{issue.description}</pre>
+							</f:then>
+							<f:else>
+								<div class="alert alert-warning">
+									This issue has no description
+								</div>
+							</f:else>
+						</f:if>
+
+					</div>
+					<div class="modal-footer">
+						<a href="{milestone.project.WebInterfaceUrl}/issues/{issue.issueId}" class="btn btn-default">
+							<span class="glyphicon glyphicon-link"></span>
+							Open Issue in Gitlab
+						</a>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</f:for>
+</div>

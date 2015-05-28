@@ -37,7 +37,7 @@ class Group {
 	/**
 	 * @var \Doctrine\Common\Collections\Collection<\KayStrobach\Gitlab\Domain\Model\Project>
 	 * @ORM\OrderBy({"name" = "DESC"})
-	 * @ORM\OneToMany(mappedBy="projectGroup")
+	 * @ORM\OneToMany(mappedBy="projectGroup", cascade={"all"})
 	 */
 	protected $projects;
 

@@ -30,14 +30,14 @@ class Server {
 	/**
 	 * @var \Doctrine\Common\Collections\Collection<\KayStrobach\Gitlab\Domain\Model\Group>
 	 * @ORM\OrderBy({"name" = "DESC"})
-	 * @ORM\OneToMany(mappedBy="server")
+	 * @ORM\OneToMany(mappedBy="server", cascade={"all"})
 	 */
 	protected $groups;
 
 	/**
 	 * @var \Doctrine\Common\Collections\Collection<\KayStrobach\Gitlab\Domain\Model\Project>
 	 * @ORM\OrderBy({"name" = "DESC"})
-	 * @ORM\OneToMany(mappedBy="server")
+	 * @ORM\OneToMany(mappedBy="server", cascade={"all"})
 	 */
 	protected $projects;
 
