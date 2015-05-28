@@ -14,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Milestone {
 	/**
+	 * @var string
+	 */
+	protected $identifierOnRemoteSystem;
+
+	/**
 	 * @var \Doctrine\Common\Collections\Collection<\KayStrobach\Gitlab\Domain\Model\Project\Issue>
 	 * @ORM\OrderBy({"title" = "DESC"})
 	 * @ORM\OneToMany(mappedBy="milestone")
@@ -29,6 +34,20 @@ class Milestone {
 	 * @var string
 	 */
 	protected $description;
+
+	/**
+	 * @return string
+	 */
+	public function getIdentifierOnRemoteSystem() {
+		return $this->identifierOnRemoteSystem;
+	}
+
+	/**
+	 * @param string $identifierOnRemoteSystem
+	 */
+	public function setIdentifierOnRemoteSystem($identifierOnRemoteSystem) {
+		$this->identifierOnRemoteSystem = $identifierOnRemoteSystem;
+	}
 
 	/**
 	 * @return \Doctrine\Common\Collections\Collection

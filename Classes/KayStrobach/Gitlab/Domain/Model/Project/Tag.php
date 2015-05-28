@@ -14,5 +14,24 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tag {
 
+	/**
+	 * @var string
+	 */
+	protected $identifierOnRemoteSystem;
+
+	/**
+	 * @return string
+	 */
+	public function getIdentifierOnRemoteSystem() {
+		return $this->identifierOnRemoteSystem;
+	}
+
+	/**
+	 * @param string $identifierOnRemoteSystem
+	 */
+	public function setIdentifierOnRemoteSystem($identifierOnRemoteSystem) {
+		$this->identifierOnRemoteSystem = $identifierOnRemoteSystem;
+	}
+
 
 }

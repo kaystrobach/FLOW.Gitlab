@@ -14,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Group {
 	/**
+	 * @var string
+	 */
+	protected $identifierOnRemoteSystem;
+
+	/**
 	 * @var \KayStrobach\Gitlab\Domain\Model\Server
 	 * @ORM\ManyToOne(inversedBy="groups")
 	 */
@@ -41,6 +46,20 @@ class Group {
 	 */
 	public function __construct() {
 		$this->projects =  new \Doctrine\Common\Collections\ArrayCollection();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIdentifierOnRemoteSystem() {
+		return $this->identifierOnRemoteSystem;
+	}
+
+	/**
+	 * @param string $identifierOnRemoteSystem
+	 */
+	public function setIdentifierOnRemoteSystem($identifierOnRemoteSystem) {
+		$this->identifierOnRemoteSystem = $identifierOnRemoteSystem;
 	}
 
 	/**

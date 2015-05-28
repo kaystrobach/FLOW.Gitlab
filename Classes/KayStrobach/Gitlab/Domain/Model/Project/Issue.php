@@ -14,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Issue {
 	/**
+	 * @var string
+	 */
+	protected $identifierOnRemoteSystem;
+
+	/**
 	 * @var \KayStrobach\Gitlab\Domain\Model\Project
 	 * @ORM\ManyToOne(inversedBy="issues")
 	 */
@@ -34,6 +39,20 @@ class Issue {
 	 * @var string
 	 */
 	protected $description;
+
+	/**
+	 * @return string
+	 */
+	public function getIdentifierOnRemoteSystem() {
+		return $this->identifierOnRemoteSystem;
+	}
+
+	/**
+	 * @param string $identifierOnRemoteSystem
+	 */
+	public function setIdentifierOnRemoteSystem($identifierOnRemoteSystem) {
+		$this->identifierOnRemoteSystem = $identifierOnRemoteSystem;
+	}
 
 	/**
 	 * @return \KayStrobach\Gitlab\Domain\Model\Project

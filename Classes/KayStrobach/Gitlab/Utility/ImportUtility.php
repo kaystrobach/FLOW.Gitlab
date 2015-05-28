@@ -22,6 +22,12 @@ class ImportUtility {
 
 	/**
 	 * @Flow\Inject
+	 * @var \KayStrobach\Gitlab\Domain\Repository\ProjectRepository
+	 */
+	protected $projectRepository;
+
+	/**
+	 * @Flow\Inject
 	 * @var \KayStrobach\Gitlab\Utility\FetchDataUtility
 	 */
 	protected $fetchUtility;
@@ -48,6 +54,7 @@ class ImportUtility {
 
 	public function importProjects(Server $server) {
 		$projectsData = $this->fetchUtility->fetchProjects($server);
+		print_r($projectsData);
 		foreach($projectsData as $projectData) {
 			$project = new Project();
 			$project->setName($projectData['name']);
