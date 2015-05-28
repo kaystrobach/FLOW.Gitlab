@@ -5,16 +5,18 @@
 </f:section>
 
 <f:section name="NavigationBar">
-	<ul class="nav navbar-nav">
-		<li>
-			<f:link.action action="projects" arguments="{server:project.server}"
-			               title="Back to server {server.name}"
-					>
-				<span class="glyphicon glyphicon-chevron-left"></span>
-				Back
-			</f:link.action>
-		</li>
-	</ul>
+	<f:if condition="{project.server.projects -> f:count()} > 1">
+		<ul class="nav navbar-nav">
+			<li>
+				<f:link.action action="projects" arguments="{server:project.server}"
+				               title="Back to server {server.name}"
+						>
+					<span class="glyphicon glyphicon-chevron-left"></span>
+					Back
+				</f:link.action>
+			</li>
+		</ul>
+	</f:if>
 </f:section>
 
 <f:section name="Content">
@@ -53,11 +55,13 @@
 						</span>
 					</td>
 					<td>
-						<div class="progress">
-							<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {milestone.progress}%;">
-								<span class="sr-only">{milestone.progress}%</span>
+						<f:if condition="{milestone.issues -> f:count()} > 0">
+							<div class="progress">
+								<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {milestone.progress}%;">
+									<span class="sr-only">{milestone.progress}%</span>
+								</div>
 							</div>
-						</div>
+						</f:if>
 					</td>
 				</tr>
 			</f:for>
