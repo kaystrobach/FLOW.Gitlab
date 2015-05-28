@@ -64,7 +64,7 @@ class GitlabController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	 * @param Project $project
 	 */
 	public function milestonesAction(Project $project) {
-		$this->view->assign('projec', $project);
+		$this->view->assign('project', $project);
 	}
 
 	public function milestoneAction(Project\Milestone $milestone) {
