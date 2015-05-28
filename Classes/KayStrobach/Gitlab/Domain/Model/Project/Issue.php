@@ -19,6 +19,11 @@ class Issue {
 	protected $identifierOnRemoteSystem;
 
 	/**
+	 * @var string
+	 */
+	protected $issueId;
+
+	/**
 	 * @var \KayStrobach\Gitlab\Domain\Model\Project
 	 * @ORM\ManyToOne(inversedBy="issues")
 	 */
@@ -27,8 +32,9 @@ class Issue {
 	/**
 	 * @var \KayStrobach\Gitlab\Domain\Model\Project\Milestone
 	 * @ORM\ManyToOne(inversedBy="issues")
+	 * @ORM\Column(nullable=true)
 	 */
-	protected $milestone;
+	protected $milestone = NULL;
 
 	/**
 	 * @var string
@@ -39,6 +45,22 @@ class Issue {
 	 * @var string
 	 */
 	protected $description;
+
+	/**
+	 * @ORM\ManyToOne
+	 * @var \KayStrobach\Gitlab\Domain\Model\Project\Issue\State
+	 */
+	protected $state;
+
+	/**
+	 * @var \DateTime
+	 */
+	protected $created;
+
+	/**
+	 * @var \DateTime
+	 */
+	protected $updated;
 
 	/**
 	 * @return string
@@ -52,6 +74,20 @@ class Issue {
 	 */
 	public function setIdentifierOnRemoteSystem($identifierOnRemoteSystem) {
 		$this->identifierOnRemoteSystem = $identifierOnRemoteSystem;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIssueId() {
+		return $this->issueId;
+	}
+
+	/**
+	 * @param string $issueId
+	 */
+	public function setIssueId($issueId) {
+		$this->issueId = $issueId;
 	}
 
 	/**
@@ -109,4 +145,48 @@ class Issue {
 	public function setMilestone($milestone) {
 		$this->milestone = $milestone;
 	}
+
+	/**
+	 * @return Issue\State
+	 */
+	public function getState() {
+		return $this->state;
+	}
+
+	/**
+	 * @param Issue\State $state
+	 */
+	public function setState($state) {
+		$this->state = $state;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreated() {
+		return $this->created;
+	}
+
+	/**
+	 * @param \DateTime $created
+	 */
+	public function setCreated($created) {
+		$this->created = $created;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdated() {
+		return $this->updated;
+	}
+
+	/**
+	 * @param \DateTime $updated
+	 */
+	public function setUpdated($updated) {
+		$this->updated = $updated;
+	}
+
+
 }

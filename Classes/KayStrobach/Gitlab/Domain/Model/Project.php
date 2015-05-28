@@ -39,6 +39,13 @@ class Project {
 	protected $issues;
 
 	/**
+	 * @var \Doctrine\Common\Collections\Collection<\KayStrobach\Gitlab\Domain\Model\Project\Milestone>
+	 * @ORM\OrderBy({"due" = "DESC"})
+	 * @ORM\OneToMany(mappedBy="project")
+	 */
+	protected $milestones;
+
+	/**
 	 * @var string
 	 */
 	protected $name;
@@ -47,6 +54,11 @@ class Project {
 	 * @var string
 	 */
 	protected $description;
+
+	/**
+	 * @var string
+	 */
+	protected $webInterfaceUrl = '';
 
 	/**
 	 * @return string
@@ -105,6 +117,20 @@ class Project {
 	}
 
 	/**
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getMilestones() {
+		return $this->milestones;
+	}
+
+	/**
+	 * @param \Doctrine\Common\Collections\Collection $milestones
+	 */
+	public function setMilestones($milestones) {
+		$this->milestones = $milestones;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getName() {
@@ -132,5 +158,17 @@ class Project {
 		$this->description = $description;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getWebInterfaceUrl() {
+		return $this->webInterfaceUrl;
+	}
 
+	/**
+	 * @param string $webInterfaceUrl
+	 */
+	public function setWebInterfaceUrl($webInterfaceUrl) {
+		$this->webInterfaceUrl = $webInterfaceUrl;
+	}
 }

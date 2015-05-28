@@ -33,6 +33,11 @@ class GitlabCommandController extends \TYPO3\Flow\Cli\CommandController {
 
 	/**
 	 * @Flow\Inject
+	 * @var \KayStrobach\Gitlab\Domain\Repository\ProjectRepository
+	 */
+	protected $projectRepository;
+	/**
+	 * @Flow\Inject
 	 * @var \KayStrobach\Gitlab\Utility\ImportUtility
 	 */
 	protected $importUtility;
@@ -44,12 +49,29 @@ class GitlabCommandController extends \TYPO3\Flow\Cli\CommandController {
 		$this->importUtility->importServers();
 		$this->persistenceManager->persistAll();
 
+		/** @var \KayStrobach\Gitlab\Domain\Model\Server $server */
+		/** @var \KayStrobach\Gitlab\Domain\Model\Project $project */
 		$servers = $this->serverRepository->findAll();
 		foreach($servers as $server) {
+			$this->output->outputLine('Importing server ' . $server->getServerIdentifier());
 			$this->importUtility->importGroups($server);
 			$this->persistenceManager->persistAll();
+			$this->output->outputLine('  Imported Groups');
+
 			$this->importUtility->importProjects($server);
 			$this->persistenceManager->persistAll();
+			$this->output->outputLine('  Imported Projects');
+
+			$projects = $this->projectRepository->findByServer($server);
+			foreach($projects as $project) {
+				$this->output->outputLine('    Importing Project ' . $project->getName());
+				$milestoneCount = $this->importUtility->importMilestones($project);
+				$this->persistenceManager->persistAll();
+				$this->output->outputLine('      Imported ' . $milestoneCount . ' Milestones');
+				$issueCount = $this->importUtility->importIssues($project);
+				$this->persistenceManager->persistAll();
+				$this->output->outputLine('      Imported ' . $issueCount . ' Issues');
+			}
 		}
 	}
 

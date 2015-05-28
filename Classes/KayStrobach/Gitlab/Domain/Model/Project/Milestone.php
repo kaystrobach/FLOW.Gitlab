@@ -14,6 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Milestone {
 	/**
+	 * @Flow\Inject
+	 * @var \KayStrobach\Gitlab\Domain\Repository\Project\IssueRepository
+	 */
+	protected $issueRepository;
+
+	/**
 	 * @var string
 	 */
 	protected $identifierOnRemoteSystem;
@@ -26,6 +32,12 @@ class Milestone {
 	protected $issues;
 
 	/**
+	 * @var \KayStrobach\Gitlab\Domain\Model\Project
+	 * @ORM\ManyToOne(inversedBy="milestones")
+	 */
+	protected $project;
+
+	/**
 	 * @var string
 	 */
 	protected $title;
@@ -34,6 +46,27 @@ class Milestone {
 	 * @var string
 	 */
 	protected $description;
+
+	/**
+	 * @ORM\ManyToOne
+	 * @var \KayStrobach\Gitlab\Domain\Model\Project\Milestone\State
+	 */
+	protected $state;
+
+	/**
+	 * @var \DateTime
+	 */
+	protected $created;
+
+	/**
+	 * @var \DateTime
+	 */
+	protected $updated;
+
+	/**
+	 * @var \DateTime
+	 */
+	protected $due;
 
 	/**
 	 * @return string
@@ -64,6 +97,20 @@ class Milestone {
 	}
 
 	/**
+	 * @return \KayStrobach\Gitlab\Domain\Model\Project
+	 */
+	public function getProject() {
+		return $this->project;
+	}
+
+	/**
+	 * @param \KayStrobach\Gitlab\Domain\Model\Project $project
+	 */
+	public function setProject($project) {
+		$this->project = $project;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getTitle() {
@@ -89,5 +136,78 @@ class Milestone {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+	}
+
+	/**
+	 * @return Milestone\State
+	 */
+	public function getState() {
+		return $this->state;
+	}
+
+	/**
+	 * @param Milestone\State $state
+	 */
+	public function setState($state) {
+		$this->state = $state;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreated() {
+		return $this->created;
+	}
+
+	/**
+	 * @param \DateTime $created
+	 */
+	public function setCreated($created) {
+		$this->created = $created;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdated() {
+		return $this->updated;
+	}
+
+	/**
+	 * @param \DateTime $updated
+	 */
+	public function setUpdated($updated) {
+		$this->updated = $updated;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getDue() {
+		return $this->due;
+	}
+
+	/**
+	 * @param \DateTime $due
+	 */
+	public function setDue($due) {
+		$this->due = $due;
+	}
+
+	/**
+	 *
+	 */
+	public function getClosedIssues() {
+		return $this->issueRepository->findByMilestoneAndState($this, 'closed');
+	}
+
+	public function getProgress() {
+		$numberOfClosedIssues = $this->getClosedIssues()->count();
+		$totalNumberOfIssues = $this->getIssues()->count();
+		if($totalNumberOfIssues === 0) {
+			return 100;
+		} else {
+			return ($numberOfClosedIssues / $totalNumberOfIssues) * 100;
+		}
 	}
 }

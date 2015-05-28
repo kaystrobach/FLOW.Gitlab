@@ -1,0 +1,40 @@
+<f:layout name="Bootstrap" />
+
+<f:section name="Title">
+	<f:link.action action="project" arguments="{project:milestone.project}"
+	               title="Back to project {milestone.project.title}"
+			><span class="glyphicon glyphicon-chevron-left"></span></f:link.action>
+	{milestone.title}
+</f:section>
+
+<f:section name="Content">
+	<div class="list-group">
+		<f:for each="{milestone.issues}" as="issue">
+			<div class="list-group-item {f:if(condition:'{issue.state.title} == \'closed\'', then:'disabled')}">
+				<span class="pull-right text-muted">
+					updated {issue.updated -> f:format.date()}
+				</span>
+				<a href="{milestone.project.WebInterfaceUrl}/issues/{issue.issueId}">
+					{issue.title}
+				</a>
+				<br>
+				<span class="pull-right">
+					<f:if condition="{issue.state.title} == 'closed'">
+						<f:then>
+							<span class="label label-danger">
+								CLOSED
+							</span>
+						</f:then>
+						<f:else>
+
+						</f:else>
+					</f:if>
+				</span>
+				<div class="text-muted">
+					#{issue.issueId}
+					<span class="glyphicon glyphicon-time"></span> {issue.milestone.title}
+				</div>
+			</div>
+		</f:for>
+	</div>
+</f:section>

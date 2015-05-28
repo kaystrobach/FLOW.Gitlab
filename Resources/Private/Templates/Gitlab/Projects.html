@@ -1,0 +1,9 @@
+<ul>
+	<f:for each="{server.projects}" as="project">
+		<li>
+			<f:link.action action="projects" arguments="{project:project}">
+				{project.name}
+			</f:link.action>
+		</li>
+	</f:for>
+</ul>

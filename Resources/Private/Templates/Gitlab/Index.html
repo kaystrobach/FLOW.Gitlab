@@ -1,1 +1,13 @@
-<gl:widget.milestone project="23"/>
+<f:layout name="Bootstrap" />
+
+<f:section name="Content">
+	<ul>
+		<f:for each="{servers}" as="server">
+			<li>
+				<f:link.action action="projects" arguments="{server:server}">
+					{server.serverIdentifier}
+				</f:link.action>
+			</li>
+		</f:for>
+	</ul>
+</f:section>

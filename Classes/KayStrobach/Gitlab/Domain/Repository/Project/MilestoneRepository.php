@@ -1,49 +1,35 @@
 <?php
-namespace KayStrobach\Gitlab\Domain\Repository;
+namespace KayStrobach\Gitlab\Domain\Repository\Project;
 
 /*                                                                        *
  * This script belongs to the TYPO3 Flow package "KayStrobach.Gitlab".    *
  *                                                                        *
  *                                                                        */
 
-use KayStrobach\Gitlab\Domain\Model\Server;
+use KayStrobach\Gitlab\Domain\Model\Project;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Persistence\Repository;
 
 /**
  * @Flow\Scope("singleton")
  */
-class ProjectRepository extends Repository {
-
-	// add customized methods here
+class MilestoneRepository extends Repository {
 
 	/**
-	 * @param Server $server
+	 * @param Project $project
 	 * @param string $remoteId
-	 * @return \KayStrobach\Gitlab\Domain\Model\Project
+	 * @return \KayStrobach\Gitlab\Domain\Model\Project\Milestone
 	 */
-	public function findOneByServerAndRemoteIdentifier(Server $server, $remoteId) {
+	public function findOneByProjectAndRemoteIdentifier(Project $project, $remoteId) {
 		$query = $this->createQuery();
 		$query->matching(
 			$query->logicalAnd(
 				array(
-					$query->equals('server', $server),
+					$query->equals('project', $project),
 					$query->equals('identifierOnRemoteSystem', $remoteId),
 				)
 			)
 		);
 		return $query->execute()->getFirst();
-	}
-
-	/**
-	 * @param Server $server
-	 * @return \TYPO3\Flow\Persistence\QueryResultInterface
-	 */
-	public function findByServer(Server $server) {
-		$query = $this->createQuery();
-		$query->matching(
-			$query->equals('server', $server)
-		);
-		return $query->execute();
 	}
 }

@@ -10,6 +10,7 @@ namespace KayStrobach\Gitlab\Utility;
 
 
 use KayStrobach\Gitlab\Domain\Model\Group;
+use KayStrobach\Gitlab\Domain\Model\Project;
 use KayStrobach\Gitlab\Domain\Model\Server;
 
 class FetchDataUtility {
@@ -42,5 +43,36 @@ class FetchDataUtility {
 		);
 	}
 
+	public function fetchIssues(Project $project) {
+		$page = 1;
+		$issues = array();
+		do {
+			$newIssues = $this->getByUrl(
+				$project->getServer()->getUri() . '/api/v3/projects/' . $project->getIdentifierOnRemoteSystem() . '/issues/?page=' . $page,
+				$project->getServer()->getToken()
+			);
+			$page++;
+			if(count($newIssues) > 0) {
+				$issues = array_merge($issues, $newIssues);
+			}
+		} while(count($newIssues) > 0);
+		return $issues;
+	}
+
+	public function fetchMilestones($project) {
+		$page = 1;
+		$milestones = array();
+		do {
+			$newMilestones = $this->getByUrl(
+				$project->getServer()->getUri() . '/api/v3/projects/' . $project->getIdentifierOnRemoteSystem() . '/milestones/?page=' . $page,
+				$project->getServer()->getToken()
+			);
+			$page++;
+			if(count($newMilestones) > 0) {
+				$milestones = array_merge($milestones, $newMilestones);
+			}
+		} while(count($newMilestones) > 0);
+		return $milestones;
+	}
 
 }
