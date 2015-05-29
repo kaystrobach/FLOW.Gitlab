@@ -40,7 +40,7 @@
 		</thead>
 		<tbody>
 			<f:for each="{project.milestones}" as="milestone">
-				<tr class="{f:if(condition:'{milestone.progress} == 100', then:'success')}">
+				<tr class="{f:if(condition:'{milestone.progress} == 100', then:'{f:if(condition:\'{milestone.issues -> f:count()}\', then:\'success\')}')}">
 					<td>
 						<f:link.action action="milestone" arguments="{milestone:milestone}">
 							{milestone.title}
