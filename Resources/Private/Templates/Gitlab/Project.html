@@ -26,35 +26,13 @@
 		Milestones
 	</h2>
 
-	<table class="table">
-		<col width="40%">
-		<col width="15%">
-		<col width="5%">
-		<col width="40%">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Due</th>
-				<th>Progress</th>
-			</tr>
-		</thead>
-		<tbody>
-			<f:for each="{project.milestones}" as="milestone">
-				<tr class="{f:if(condition:'{milestone.progress} == 100', then:'{f:if(condition:\'{milestone.issues -> f:count()}\', then:\'success\')}')}">
-					<td>
-						<f:link.action action="milestone" arguments="{milestone:milestone}">
-							{milestone.title}
-						</f:link.action>
-					</td>
-					<td>
-						{milestone.due -> f:format.date()}
-					</td>
-					<td>
-						<span class="badge">
-							{milestone.closedIssues -> f:count()} / {milestone.issues -> f:count()}
-						</span>
-					</td>
-					<td>
+	<div class="list-group">
+		<f:for each="{project.milestones}" as="milestone">
+			<div
+					title="{f:if(condition:'{milestone.state.title} == \'closed\'', then:'Milestone is closed', else:'Milestone is active')}"
+					class="list-group-item {f:if(condition:'{milestone.progress} == 100', then:'{f:if(condition:\'{milestone.issues -> f:count()}\', then:\'list-group-item-success\')}')} {f:if(condition:'{milestone.state.title} == \'closed\'', then:'disabled')}">
+				<div class="row">
+					<div class="col-sm-5 col-sm-push-7">
 						<f:if condition="{milestone.issues -> f:count()} > 0">
 							<div class="progress">
 								<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {milestone.progress}%;">
@@ -62,9 +40,32 @@
 								</div>
 							</div>
 						</f:if>
-					</td>
-				</tr>
-			</f:for>
-		</tbody>
-	</table>
+					</div>
+					<div class="col-sm-6 col-sm-pull-5">
+						<f:link.action action="milestone" arguments="{milestone:milestone}">
+							{milestone.title}
+						</f:link.action>
+						<br>
+						<f:link.action action="milestone" arguments="{milestone:milestone}">
+							{milestone.issues -> f:count()} Issues
+						</f:link.action>
+						<span class="text-muted">
+							<span class="glyphicon glyphicon-time"></span>
+							{milestone.due -> f:format.date()}
+						</span>
+					</div>
+					<div class="col-sm-1 col-sm-pull-5">
+						<span class="badge">
+							{milestone.closedIssues -> f:count()} / {milestone.issues -> f:count()}
+						</span>
+					</div>
+				</div>
+				<f:if condition="{milestone.description}">
+					<p>
+						<pre>{milestone.description}</pre>
+					</p>
+				</f:if>
+			</div>
+		</f:for>
+	</div>
 </f:section>
