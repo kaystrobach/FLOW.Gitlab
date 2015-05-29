@@ -16,10 +16,18 @@ class UpdateController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	 * @var \TYPO3\Flow\Configuration\ConfigurationManager
 	 * @FLOW\Inject
 	 */
-	public $configurationManager;
+	protected $configurationManager;
+
+	/**
+	 * @var \TYPO3\Flow\Cache\Frontend\FrontendInterface
+	 * @FLOW\Inject
+	 */
+	protected $cache;
 
 	public function indexAction() {
-
+		if($this->cache->get('dataUpdated') == 1) {
+			$this->redirect('index', 'Gitlab');
+		}
 	}
 
 	public function importAction() {
@@ -29,6 +37,9 @@ class UpdateController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		);
 
 		\TYPO3\Flow\Core\Booting\Scripts::executeCommand('gitlab:import', $settings);
+
+		$this->cache->set('dataUpdated', 1);
+
 		$this->redirect(
 			'index',
 			'Gitlab'

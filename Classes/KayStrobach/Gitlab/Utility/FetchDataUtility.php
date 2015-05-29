@@ -36,6 +36,23 @@ class FetchDataUtility {
 		);
 	}
 
+	public function fetchNamespaces(Server $server) {
+		$page = 1;
+		$namespaces = array();
+		do {
+			$newNamespaces = $this->getByUrl(
+				$server->getUri() . '/api/v3/namespaces?page=' . $page,
+				$server->getToken()
+			);
+			$page++;
+			if(count($newNamespaces) > 0) {
+				$namespaces = array_merge($namespaces, $newNamespaces);
+			}
+		} while (count($newNamespaces) > 0);
+
+		return $namespaces;
+	}
+
 	public function fetchProjects(Server $server) {
 		$page = 1;
 		$projects = array();

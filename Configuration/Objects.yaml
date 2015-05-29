@@ -1,0 +1,9 @@
+KayStrobach\Gitlab\Controller\UpdateController:
+  properties:
+    cache:
+      object:
+        factoryObjectName: TYPO3\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: KayStrobachGitlab_TimingCache
