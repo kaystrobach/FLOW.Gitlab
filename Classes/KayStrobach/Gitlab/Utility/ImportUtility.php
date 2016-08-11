@@ -68,6 +68,9 @@ class ImportUtility {
 
 	public function importGroups(Server $server) {
 		$groups = $this->fetchUtility->fetchGroups($server);
+        if (!is_array($groups)) {
+            return 0;
+        }
 		foreach($groups as $groupData) {
 			$group = $this->groupRepository->findOneByServerAndRemoteIdentifier($server, $groupData['id']);
 			if($group !== NULL) {
@@ -83,6 +86,7 @@ class ImportUtility {
 				$this->groupRepository->add($group);
 			}
 		}
+		return count($groups);
 	}
 
 	public function importProjects(Server $server) {

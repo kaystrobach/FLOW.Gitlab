@@ -26,15 +26,33 @@ class FetchDataUtility {
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array('PRIVATE-TOKEN: ' . $token));
 		$result = json_decode(curl_exec($curl), TRUE);
 		curl_close($curl);
+
+        if(array_key_exists('message', $result)) {
+            if($result['message'] === '403 Forbidden') {
+                return array();
+            }
+        }
+
 		return $result;
 	}
 
-	public function fetchGroups(Server $server) {
-		return $this->getByUrl(
-			$server->getUri() . '/api/v3/groups',
-			$server->getToken()
-		);
-	}
+    public function fetchGroups(Server $server) {
+        $page = 1;
+        $groups = array();
+        do {
+            $newGroups = $this->getByUrl(
+                $server->getUri() . '/api/v3/groups?page=' . $page,
+                $server->getToken()
+            );
+
+            $page++;
+            if(count($newGroups) > 0) {
+                $groups = array_merge($groups, $newGroups);
+            }
+        } while(count($newGroups) > 0);
+
+        return $groups;
+    }
 
 	public function fetchNamespaces(Server $server) {
 		$page = 1;
@@ -74,11 +92,13 @@ class FetchDataUtility {
 		$page = 1;
 		$issues = array();
 		do {
+            echo $page . ", ";
 			$newIssues = $this->getByUrl(
 				$project->getServer()->getUri() . '/api/v3/projects/' . $project->getIdentifierOnRemoteSystem() . '/issues/?page=' . $page,
 				$project->getServer()->getToken()
 			);
 			$page++;
+
 			if(count($newIssues) > 0) {
 				$issues = array_merge($issues, $newIssues);
 			}
@@ -90,6 +110,7 @@ class FetchDataUtility {
 		$page = 1;
 		$milestones = array();
 		do {
+            echo $page . ", ";
 			$newMilestones = $this->getByUrl(
 				$project->getServer()->getUri() . '/api/v3/projects/' . $project->getIdentifierOnRemoteSystem() . '/milestones/?page=' . $page,
 				$project->getServer()->getToken()

@@ -54,9 +54,9 @@ class GitlabCommandController extends \TYPO3\Flow\Cli\CommandController {
 		$servers = $this->serverRepository->findAll();
 		foreach($servers as $server) {
 			$this->output->outputLine('Importing server ' . $server->getServerIdentifier());
-			$this->importUtility->importGroups($server);
-			$this->persistenceManager->persistAll();
-			$this->output->outputLine('  Imported Groups');
+            $groupCount = $this->importUtility->importGroups($server);
+            $this->persistenceManager->persistAll();
+			$this->output->outputLine('  Imported ' . $groupCount . ' Groups');
 
 			$projectCount = $this->importUtility->importProjects($server);
 			$this->persistenceManager->persistAll();
@@ -64,14 +64,13 @@ class GitlabCommandController extends \TYPO3\Flow\Cli\CommandController {
 
 			$projects = $this->projectRepository->findByServer($server);
 			foreach($projects as $project) {
-				$this->output->outputLine('    Importing Project ' . $project->getName());
+				$this->output->outputLine('    Importing Project ' . $project->getNamespace() . '/' . $project->getName());
 				$milestoneCount = $this->importUtility->importMilestones($project);
-				$this->persistenceManager->persistAll();
 				$this->output->outputLine('      Imported ' . $milestoneCount . ' Milestones');
 				$issueCount = $this->importUtility->importIssues($project);
-				$this->persistenceManager->persistAll();
 				$this->output->outputLine('      Imported ' . $issueCount . ' Issues');
 			}
+            $this->persistenceManager->persistAll();
 		}
 	}
 

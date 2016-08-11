@@ -1,0 +1,40 @@
+-
+  name: 'Milestone view'
+  uriPattern: 'gitlab/{milestone}'
+  appendExceedingArguments: true
+  defaults:
+    '@package':    'KayStrobach.Gitlab'
+    '@controller': 'Gitlab'
+    '@action':     'milestone'
+    '@format':     'html'
+  routeParts:
+    milestone:
+      objectType: 'KayStrobach\Gitlab\Domain\Model\Project\Milestone'
+      uriPattern: '{project.server.serverIdentifier}/{project.namespace}/{project.name}/milestones/{identifierOnRemoteSystem}'
+
+-
+  name: 'Project view'
+  uriPattern: 'gitlab/{project}'
+  defaults:
+    '@package':    'KayStrobach.Gitlab'
+    '@controller': 'Gitlab'
+    '@action':     'project'
+    '@format':     'html'
+  routeParts:
+    project:
+      objectType: 'KayStrobach\Gitlab\Domain\Model\Project'
+      uriPattern: '{server.serverIdentifier}/{namespace}/{name}'
+
+-
+  name: 'Server view'
+  uriPattern: 'gitlab/{server}'
+  defaults:
+    '@package':    'KayStrobach.Gitlab'
+    '@controller': 'Gitlab'
+    '@action':     'projects'
+    '@format':     'html'
+  routeParts:
+    server:
+      objectType: 'KayStrobach\Gitlab\Domain\Model\Server'
+      uriPattern: '{serverIdentifier}'
+
